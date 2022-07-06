@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   Pressable,
 } from 'react-native';
 import SelectBox from 'react-native-multi-selectbox'
+import DatePicker from 'react-native-date-picker'
 
 const genderSelectOptions = [
   {
@@ -24,6 +25,16 @@ const genderSelectOptions = [
 ]
 
 export const Signin = ({navigation}) => {
+  const [gender, setGender] = useState({})
+  const [dateOpen, setDateOpen] = useState(false)
+  const [dob, setDob] = useState(new Date())
+  const [dateText, setDateText] = useState('')
+
+
+  useEffect(() => {
+    setDateText(`${dob.getDate()}-${dob.getMonth()+1}-${dob.getFullYear()}`)
+  }, [dob])
+
   return (
     <View style={styles.formContainer}>
       <View style={styles.form}>
@@ -44,17 +55,37 @@ export const Signin = ({navigation}) => {
           maxLength={10}
         />
 
+
+      <Text style={styles.dateTitle}>Date of Birth</Text>
+        <Text 
+          onPress={() => setDateOpen(true)}
+          style={styles.dobText}
+        >
+          {dateText} </Text>
+        <DatePicker 
+          modal
+          mode='date'
+          date={dob}
+          open={dateOpen}
+          onConfirm={(date) => {
+          setDateOpen(false)
+          setDob(date)
+        }}
+        onCancel={() => {
+          setDateOpen(false)
+        }}
+        textColor='white'
+          />
+
         <SelectBox 
           label="Gender"
           options={genderSelectOptions}
-          value='m'
+          value={gender}
           hideInputFilter={true}
-          onChange={(value) => console.log(value)}
-          // containerStyle={styles.selectBox}
+          onChange={(value) => setGender(value)}
           optionsLabelStyle={styles.label}
-          // optionContainerStyle={styles.optContainer}
           labelStyle={{color: 'white'}}
-          // inputPlaceHolder
+          containerStyle={{backgroundColor: '#aaa', padding: 10, borderRadius: 2}}
           width="80%"
         />
 
@@ -123,5 +154,22 @@ const styles = StyleSheet.create({
   },
   optContainer:{
     color: 'white'
+  },
+  dobText: {
+    borderColor: 'white',
+    borderWidth: 2,
+    width: '80%',
+    color: 'white',
+    paddingLeft: 20,
+    fontSize: 18,
+    borderRadius: 3,
+    margin: 5,
+    padding: 10
+  },
+  dateTitle: {
+    textAlign: 'left',
+    color: 'white',
+    width: '80%',
+    fontSize: 14
   }
 });

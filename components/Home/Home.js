@@ -5,9 +5,7 @@ export const Home = ({navigation}) => {
 
   useEffect(() => {
     setTimeout( () => {
-      navigation.navigate('Form', {
-        query: 'sometext'
-      })
+      navigation.navigate('Form')
     }, 1000)
   }, [])
 

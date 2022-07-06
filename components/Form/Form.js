@@ -6,7 +6,9 @@ export const Form = (props) => {
   console.log(route.params)
   return (
     <View style={styles.formContainer}>
+
       <View style={styles.form}>
+        
         <Text style={styles.heading}>Form</Text>
         <TextInput placeholder="Username" style={styles.input} />
         <TextInput
@@ -14,6 +16,7 @@ export const Form = (props) => {
           style={styles.input}
           secureTextEntry={true}
         />
+
         <View style={styles.btns}>
           <Pressable style={styles.btn} onPress={() => navigation.navigate('Signin')}>
             <Text style={styles.btnTxt}>Sign in</Text>
@@ -23,7 +26,9 @@ export const Form = (props) => {
             <Text style={styles.btnTxt}>Log in</Text>
           </Pressable>
         </View>
+  
       </View>
+    
     </View>
   );
 };
