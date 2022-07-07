@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import SelectBox from 'react-native-multi-selectbox'
 import DatePicker from 'react-native-date-picker'
+import {useUsers} from '../../UserContext'
 
 const genderSelectOptions = [
   {
@@ -24,28 +25,46 @@ const genderSelectOptions = [
   }
 ]
 
-export const Signin = ({navigation}) => {
+export const Signup = ({navigation}) => {
+  const users = useUsers()
+
   const [gender, setGender] = useState({})
   const [dateOpen, setDateOpen] = useState(false)
   const [dob, setDob] = useState(new Date())
   const [dateText, setDateText] = useState('')
 
+  const [values, setValues] = useState({})
+
 
   useEffect(() => {
     setDateText(`${dob.getDate()}-${dob.getMonth()+1}-${dob.getFullYear()}`)
+    setValues({...values, dob: `${dob.getDate()}-${dob.getMonth()+1}-${dob.getFullYear()}`})
   }, [dob])
+
+  useEffect(() => {
+    console.log(values)
+  }, [values])
+
+  const signin = () => {
+      users.newUser(values)
+      navigation.navigate('Form')
+  }
 
   return (
     <View style={styles.formContainer}>
       <View style={styles.form}>
         <Text style={styles.heading}>Form</Text>
         
-        <TextInput placeholder="Name" style={styles.input} />
+        <TextInput placeholder="Name" 
+          style={styles.input} 
+          onChange={e => setValues({...values, name: e.nativeEvent.text})}
+        />
 
         <TextInput
           placeholder="Email"
           style={styles.input}
           keyboardType="email-address"
+          onChange={e => setValues({...values, email: e.nativeEvent.text})}
         />
 
         <TextInput
@@ -53,6 +72,7 @@ export const Signin = ({navigation}) => {
           style={styles.input}
           keyboardType='number-pad'
           maxLength={10}
+          onChange={e => setValues({...values, phone: e.nativeEvent.text})}
         />
 
 
@@ -82,7 +102,7 @@ export const Signin = ({navigation}) => {
           options={genderSelectOptions}
           value={gender}
           hideInputFilter={true}
-          onChange={(value) => setGender(value)}
+          onChange={(value) => {setGender(value); setValues({...values, gender: value.item})}}
           optionsLabelStyle={styles.label}
           labelStyle={{color: 'white'}}
           containerStyle={{backgroundColor: '#aaa', padding: 10, borderRadius: 2}}
@@ -93,12 +113,13 @@ export const Signin = ({navigation}) => {
           placeholder="Password"
           style={styles.input}
           secureTextEntry={true}
+          onChange={e => setValues({...values, password: e.nativeEvent.text})}
         />
 
         <View>
           <Pressable
             style={styles.btn}
-            onPress={() => navigation.navigate('Signin')}
+            onPress={signin}
             >
             <Text style={styles.btnTxt}>Sign in</Text>
           </Pressable>
