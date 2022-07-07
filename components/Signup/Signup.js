@@ -9,8 +9,9 @@ import {
 import SelectBox from 'react-native-multi-selectbox'
 import DatePicker from 'react-native-date-picker'
 import {useUsers} from '../../UserContext'
+import {openPicker} from 'react-native-image-crop-picker'
 
-const genderSelectOptions = [
+const genderOptions = [
   {
     item: 'Male',
     id: 'm'
@@ -25,10 +26,29 @@ const genderSelectOptions = [
   }
 ]
 
+const deptOptions = [
+  {
+    item: 'Tester',
+    id: 'tester'
+  },
+  {
+    item: 'Developer',
+    id: 'developer'
+  },
+  {
+    item: 'HR',
+    id: 'hr'
+  },
+  {
+    item: 'Q&A',
+    id: 'qa'
+  },
+]
 export const Signup = ({navigation}) => {
   const users = useUsers()
 
   const [gender, setGender] = useState({})
+  const [dept, setDept] = useState({})
   const [dateOpen, setDateOpen] = useState(false)
   const [dob, setDob] = useState(new Date())
   const [dateText, setDateText] = useState('')
@@ -50,10 +70,20 @@ export const Signup = ({navigation}) => {
       navigation.navigate('Form')
   }
 
+  const load = () => {
+    openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      setValues({...values, img: image.path})
+    });
+  }
+
   return (
     <View style={styles.formContainer}>
       <View style={styles.form}>
-        <Text style={styles.heading}>Form</Text>
+        <Text style={styles.heading}>Fill your details</Text>
         
         <TextInput placeholder="Name" 
           style={styles.input} 
@@ -99,10 +129,22 @@ export const Signup = ({navigation}) => {
 
         <SelectBox 
           label="Gender"
-          options={genderSelectOptions}
+          options={genderOptions}
           value={gender}
           hideInputFilter={true}
           onChange={(value) => {setGender(value); setValues({...values, gender: value.item})}}
+          optionsLabelStyle={styles.label}
+          labelStyle={{color: 'white'}}
+          containerStyle={{backgroundColor: '#aaa', padding: 10, borderRadius: 2}}
+          width="80%"
+        />
+
+        <SelectBox 
+          label="Department"
+          options={deptOptions}
+          value={dept}
+          hideInputFilter={true}
+          onChange={(value) => {setDept(value); setValues({...values, dept: value.item})}}
           optionsLabelStyle={styles.label}
           labelStyle={{color: 'white'}}
           containerStyle={{backgroundColor: '#aaa', padding: 10, borderRadius: 2}}
@@ -115,6 +157,10 @@ export const Signup = ({navigation}) => {
           secureTextEntry={true}
           onChange={e => setValues({...values, password: e.nativeEvent.text})}
         />
+
+        <Pressable onPress={load} style={styles.dobText}>
+          <Text>Upload Image</Text>
+        </Pressable>
 
         <View>
           <Pressable
@@ -165,10 +211,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   heading: {
-    fontSize: 35,
+    fontSize: 30,
     textAlign: 'left',
     width: '80%',
     color: 'white',
+    marginBottom: 15
   },
   label: {
     color: ' white'

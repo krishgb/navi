@@ -24,7 +24,7 @@ export const Form = ({navigation}) => {
 
       <View style={styles.form}>
         
-        <Text style={styles.heading}>Form</Text>
+        <Text style={styles.heading}>Employee Login</Text>
         <TextInput 
           placeholder="Email" 
           style={styles.input} 
@@ -41,7 +41,7 @@ export const Form = ({navigation}) => {
         />
 
         <View style={styles.btns}>
-          <Pressable style={styles.btn} onPress={() => navigation.navigate('Signup')}>
+          <Pressable style={styles.btn} onPress={() => navigation.navigate('Employee Signup Form')}>
             <Text style={styles.btnTxt}>Sign up</Text>
           </Pressable>
 
@@ -97,9 +97,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   heading: {
-    fontSize: 35,
+    fontSize: 30,
     textAlign: 'left',
     width: '80%',
-    color: 'white'
+    color: 'white',
+    marginBottom: 15
   }
 });
