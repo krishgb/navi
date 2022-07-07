@@ -4,7 +4,7 @@ const UsersContext = createContext()
 export const useUsers = () => useContext(UsersContext)
 
 export const Users = ({children}) => {
-    const [users, setUsers] = useState([])
+    const [users, setUsers] = useState([{email: 'a', password: 'a'}])
 
     useEffect(() => {
         console.log(users)
@@ -19,6 +19,14 @@ export const Users = ({children}) => {
         setUsers([...users, user])
     }
 
+    const setSchedule = (email, schedules) => {
+        for(const user of users){
+            if(user.email === email){
+                user.schedules = schedules
+                setUsers([...users, user])
+            }
+        }
+    }
 
     const verifyUser = (email, password) => {
         if(!users.length) return false
@@ -29,7 +37,7 @@ export const Users = ({children}) => {
     }
 
     return (
-        <UsersContext.Provider value={{users, newUser, isUserExists, verifyUser}}>
+        <UsersContext.Provider value={{users, newUser, isUserExists, verifyUser, setSchedule}}>
             {children}
         </UsersContext.Provider>
     )

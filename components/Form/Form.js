@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {View, Text, TextInput, StyleSheet, Pressable, ToastAndroid} from 'react-native';
 import {useUsers} from '../../UserContext'
 
-export const Form = (props) => {
-  const {navigation, route} = props
+export const Form = ({navigation}) => {
   const users = useUsers()
   const [credentials, setCredentials] = useState({email: '', password: ''})
 
   const login = () => {
     const verify = users.verifyUser(credentials.email, credentials.password)
-    console.log(verify, users)
-    if(verify) navigation.navigate('Profile')
+    if(verify) navigation.navigate('Profile', {
+      email: credentials.email
+    })
     else {
       ToastAndroid.show(
         'Wrong Credentials', 

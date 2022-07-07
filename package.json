@@ -12,9 +12,12 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
+    "native-base": "^3.4.8",
     "react": "18.0.0",
     "react-native": "0.69.1",
+    "react-native-calendars": "^1.1284.0",
     "react-native-date-picker": "^4.2.2",
+    "react-native-email": "^2.1.0",
     "react-native-multi-selectbox": "^1.5.0",
     "react-native-safe-area-context": "^4.3.1",
     "react-native-screens": "^3.14.0",
@@ -32,5 +35,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assests": [
+      "./assest/fonts"
+    ]
   }
 }
